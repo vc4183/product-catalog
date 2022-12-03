@@ -46,3 +46,5 @@ docker image rm vcesar0edu/rso_repo:product_catalog
 jdbc:postgresql://<server>:5432/<User & Default database>
 jdbc:postgresql://lucky.db.elephantsql.com:5432/plqeoytw
 ```
+
+test GHA
