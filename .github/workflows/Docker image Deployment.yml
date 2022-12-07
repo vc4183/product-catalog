@@ -30,6 +30,7 @@ jobs:
       id: docker_image_tag
       run: |
         tag="${{ secrets.DOCKERHUB_UNAME }}/${{ secrets.DOCKERHUB_REPONAME }}:${{ secrets.DOCKERHUB_IMG_PREFIX }}-${{ steps.time.outputs.time }}"
+        echo "pr_title=$pr_title" >> $GITHUB_OUTPUT
     
     - name: Login to DockerHub
       uses: docker/login-action@v1
