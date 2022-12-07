@@ -44,4 +44,4 @@ jobs:
       with:
         file: ./Dockerfile_with_maven_build
         push: true
-        tags: asdsad/${{ steps.docker_image_tag.output.tag }}:env${{ env.tag }}
+        tags: asdsad/${{ steps.docker_image_tag.outputs.tag }}:env${{ env.tag }}
