@@ -29,7 +29,8 @@ jobs:
     - name: Set Image Tag
       id: docker_image_tag
       run: |
-        tag="${{ secrets.DOCKERHUB_UNAME }}/${{ secrets.DOCKERHUB_REPONAME }}:${{ secrets.DOCKERHUB_IMG_PREFIX }}-${{ steps.time.outputs.time }}
+        tag="${{ secrets.DOCKERHUB_UNAME }}/${{ secrets.DOCKERHUB_REPONAME }}:${{ secrets.DOCKERHUB_IMG_PREFIX }}-${{ steps.time.outputs.time }}"
+        echo "tag=$tag" >> $GITHUB_OUTPUT
     
     - name: Login to DockerHub
       uses: docker/login-action@v1
@@ -43,4 +44,30 @@ jobs:
       with:
         file: ./Dockerfile_with_maven_build
         push: true
-        tags: ${{ steps.docker_image_tag.tag }}
+        tags: ${{ steps.docker_image_tag.outputs.tag }}
+        
+    - name: Azure Login
+      uses: Azure/login@v1.4.6
+      env: 
+        AZURE_CREDENTIALS: '${{ secrets.AZURE_CREDENTIALS }}'
+      with:
+        creds: ${{ env.AZURE_CREDENTIALS }}
+        allow-no-subscriptions: true
+
+    - name: Setup Target AKS cluster
+      uses: Azure/aks-set-context@v1
+      env:
+        AZURE_CREDENTIALS: '${{ secrets.AZURE_CREDENTIALS }}'
+        AZURE_K8S_CLUSTER_NAME: '${{ secrets.AZURE_K8S_CLUSTER_NAME }}'
+        AZURE_K8S_CLUSTER_RESOURCE_GROUP_NAME: '${{ secrets.AZURE_K8S_CLUSTER_RESOURCE_GROUP_NAME }}'
+      with:
+        creds: ${{ env.AZURE_CREDENTIALS }}
+        cluster-name: ${{ env.AZURE_K8S_CLUSTER_NAME }}
+        resource-group: ${{ env.AZURE_K8S_CLUSTER_RESOURCE_GROUP_NAME }}
+  
+    - name: Update Deployment image
+      run: |
+        kubectl set image deployment/product-catalog-deployment product-catalog-container=${{ steps.docker_image_tag.outputs.tag }} -n rso-deploy-namespace
+    - name: Wait for rollout to finish
+      run: |
+        kubectl rollout status deployment/product-catalog-deployment -n rso-deploy-namespace
