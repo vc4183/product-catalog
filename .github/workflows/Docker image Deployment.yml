@@ -47,16 +47,22 @@ jobs:
         tags: ${{ steps.docker_image_tag.outputs.tag }}
         
     - name: Azure Login
-      uses: Azure/login@v1.1
+      uses: Azure/actions/login@V1
+      env: 
+        AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ env.AZURE_CREDENTIALS }}
 
     - name: Setup Target AKS cluster
       uses: Azure/aks-set-context@v1
+      env:
+        AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+        AZURE_K8S_CLUSTER_NAME: ${{ secrets.AZURE_K8S_CLUSTER_NAME }}
+        AZURE_K8S_CLUSTER_RESOURCE_GROUP_NAME: ${{ secrets.AZURE_K8S_CLUSTER_RESOURCE_GROUP_NAME }}
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-        cluster-name: ${{ secrets.AZURE_K8S_CLUSTER_NAME }}
-        resource-group: ${{ secrets.AZURE_K8S_CLUSTER_RESOURCE_GROUP_NAME }}
+        creds: ${{ env.AZURE_CREDENTIALS }}
+        cluster-name: ${{ env.AZURE_K8S_CLUSTER_NAME }}
+        resource-group: ${{ env.AZURE_K8S_CLUSTER_RESOURCE_GROUP_NAME }}
   
     - name: Update Deployment image
       run: |
