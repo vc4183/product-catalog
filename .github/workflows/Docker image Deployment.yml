@@ -46,7 +46,6 @@ jobs:
         push: true
         tags: ${{ steps.docker_image_tag.outputs.tag }}
         
-   
     - name: Azure Login
       uses: Azure/login@v1.4.6
       with:
