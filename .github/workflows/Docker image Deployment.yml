@@ -47,7 +47,7 @@ jobs:
         tags: ${{ steps.docker_image_tag.outputs.tag }}
         
     - name: Azure Login
-      uses: Azure/login@v1.4.1
+      uses: Azure/login@v1.4.2
       env: 
         AZURE_CREDENTIALS: '${{ secrets.AZURE_CREDENTIALS }}'
       with:
