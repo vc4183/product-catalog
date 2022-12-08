@@ -47,10 +47,9 @@ jobs:
         tags: ${{ steps.docker_image_tag.outputs.tag }}
         
     - name: Azure Login
-      uses: Azure/login@v1
+      uses: Azure/login@v1.1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-        enable-AzPSSession: true 
 
     - name: Setup Target AKS cluster
       uses: Azure/aks-set-context@v1
