@@ -49,7 +49,7 @@ jobs:
     - name: Azure Login
       uses: Azure/actions/login@V1
       env: 
-        AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }
+        AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
       with:
         creds: ${{ env.AZURE_CREDENTIALS }}
 
