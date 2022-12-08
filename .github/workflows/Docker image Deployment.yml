@@ -49,16 +49,16 @@ jobs:
     - name: Azure Login
       uses: Azure/login@v1.1
       env: 
-        AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+        AZURE_CREDENTIALS: '${{ secrets.AZURE_CREDENTIALS }}'
       with:
         creds: ${{ env.AZURE_CREDENTIALS }}
 
     - name: Setup Target AKS cluster
       uses: Azure/aks-set-context@v1
       env:
-        AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-        AZURE_K8S_CLUSTER_NAME: ${{ secrets.AZURE_K8S_CLUSTER_NAME }}
-        AZURE_K8S_CLUSTER_RESOURCE_GROUP_NAME: ${{ secrets.AZURE_K8S_CLUSTER_RESOURCE_GROUP_NAME }}
+        AZURE_CREDENTIALS: '${{ secrets.AZURE_CREDENTIALS }}'
+        AZURE_K8S_CLUSTER_NAME: '${{ secrets.AZURE_K8S_CLUSTER_NAME }}'
+        AZURE_K8S_CLUSTER_RESOURCE_GROUP_NAME: '${{ secrets.AZURE_K8S_CLUSTER_RESOURCE_GROUP_NAME }}'
       with:
         creds: ${{ env.AZURE_CREDENTIALS }}
         cluster-name: ${{ env.AZURE_K8S_CLUSTER_NAME }}
