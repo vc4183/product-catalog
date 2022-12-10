@@ -2,20 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: product-catalog-deployment
-  namespace: rso-deploy-namespace
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: product-catalog-service
+      app: product-catalog
   template:
     metadata:
       labels:
-        app: product-catalog-service
+        app: product-catalog
     spec:
       containers:
-        - name: product-catalog-container
-          image: vcesar0edu/rso_repo:product-catalog-2022-12-11-00-41-33
+        - image: vcesar0edu/rso_repo:product-catalog-2022-12-03
+          name: product-catalog
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
               value: jdbc:postgresql://lucky.db.elephantsql.com:5432/plqeoytw
@@ -36,8 +35,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: product-catalog-service
-  namespace: rso-deploy-namespace
+  name: product-catalog
 spec:
   type: LoadBalancer
   ports:
@@ -45,4 +43,4 @@ spec:
       protocol: TCP
       targetPort: server
   selector:
-    app: product-catalog-service
+    app: product-catalog
