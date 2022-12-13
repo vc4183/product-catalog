@@ -59,13 +59,3 @@ az login
 
 3. Poženeš komande katere so v "connect" zavihku na Azure - K8S cluster
 
-
-## Kubectl 
-create secret
-```bash
-kubectl create secret generic elephant-pg-pwd --from-literal=pg-pass=tbGnBKmpYh2bhYPz8E4i4-etKgm8w68V
-```
-podatki o secretu
-```bash
-kubectl get secret elephant-pg-pwd -o jsonpath='{.data}'
-```
