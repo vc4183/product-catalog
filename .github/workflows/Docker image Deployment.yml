@@ -67,7 +67,7 @@ jobs:
   
     - name: Update Deployment image
       run: |
-        kubectl set image deployment/product-catalog-deployment product-catalog-container=${{ steps.docker_image_tag-outputs.tag }} -n rso-deploy-namespace
+        kubectl set image deployment/product-catalog-deployment product-catalog-container=${{ steps.docker_image_tag.outputs.tag }} -n rso-deploy-namespace
     - name: Wait for rollout to finish
       run: |
         kubectl rollout status deployment/product-catalog-deployment -n rso-deploy-namespace
