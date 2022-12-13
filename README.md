@@ -13,6 +13,9 @@ docker run -d --name pg-product -e POSTGRES_USER=dbuser_Diagnoses7782 -e POSTGRE
 ## Buildanje aplikacije v konzoli IntelliJ
 ```bash
 mvn clean package
+```
+
+```bash
 java -jar .\api\target\product-catalog-api-1.0-SNAPSHOT.jar
 ```
 

@@ -13,3 +13,5 @@ kumuluzee:
       username: dbuser_Diagnoses7782
       password: T3Bo32fu7yW#Gj^%r!%^
       max-pool-size: 20
+rest-properties:
+  maintenance-mode: false
