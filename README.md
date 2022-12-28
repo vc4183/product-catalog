@@ -63,12 +63,16 @@ az login
 3. Poženeš komande katere so v "connect" zavihku na Azure - K8S cluster
 
 
-## Kubectl 
-create secret
-```bash
-kubectl create secret generic elephant-pg-pwd --from-literal=pg-pass=tbGnBKmpYh2bhYPz8E4i4-etKgm8w68V
+## Consul
+
+```bash 
+consul agent -dev
 ```
-podatki o secretu
-```bash
-kubectl get secret elephant-pg-pwd -o jsonpath='{.data}'
-```
+
+http://localhost:8500/ui/d1/services
+
+Key: 
+environments/dev/services/product-catalog-service/1.0.0/config/rest-properties/maintenance-mode
+
+Val:
+false / true --> v tem primeru api klici ne delujejo
