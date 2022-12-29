@@ -7,6 +7,11 @@ kumuluzee:
     base-url: http://localhost:8080
     http:
       port: 8080
+  openapi-mp:
+    ui:
+      server-auto-config:
+        enabled: true
+        original-uri-check: false
   datasources:
     - jndi-name: jdbc/ProductMetadataDS
       connection-url: jdbc:postgresql://localhost:5432/rso_product
