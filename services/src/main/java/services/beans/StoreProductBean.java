@@ -1,12 +1,15 @@
 package services.beans;
 
 import DTOs.StoreProductDTO;
+import com.kumuluz.ee.metrics.producers.MetricRegistryProducer;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
 import converters.StoreProductConverter;
 import entities.StoreProduct;
 
-import org.eclipse.microprofile.metrics.annotation.Timed;
+import org.eclipse.microprofile.metrics.Counter;
+import org.eclipse.microprofile.metrics.MetricRegistry;
+import org.eclipse.microprofile.metrics.annotation.Counted;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -25,7 +28,6 @@ public class StoreProductBean {
     @Inject
     private EntityManager em;
 
-
     public List<StoreProductDTO> getAll() {
 
         TypedQuery<StoreProduct> query = em.createNamedQuery(
@@ -36,7 +38,7 @@ public class StoreProductBean {
         return resultList.stream().map(StoreProductConverter::toDto).collect(Collectors.toList());
     }
 
-    @Timed
+    @Counted(name = "get_filtered_storeProducts", absolute = true) //, absolute = true
     public List<StoreProductDTO> getFilter(UriInfo uriInfo) {
 
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).defaultOffset(0)

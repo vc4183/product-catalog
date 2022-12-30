@@ -9,7 +9,7 @@ public class StoreProductConverter {
         System.out.println("storeProduct to DTO");
         StoreProductDTO dto = new StoreProductDTO();
 
-        dto.setProductId(entity.getId());
+        dto.setId(entity.getId());
         dto.setPriceEur(entity.getPriceEur());
         dto.setPriceGbp(entity.getPriceGbp());
         dto.setorigPriceEur(entity.getOrigPriceEur());
