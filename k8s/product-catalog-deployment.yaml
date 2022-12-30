@@ -18,7 +18,7 @@ spec:
           image: vcesar0edu/rso_repo:product-catalog-2022-12-11-00-41-33
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
-              value: jdbc:postgresql://lucky.db.elephantsql.com:5432/plqeoytw
+              value: jdbc:postgresql://lucky.db.elephantsql.com:5432/plqeoytw_test1123
             - name: KUMULUZEE_DATASOURCES0_USERNAME
               value: plqeoytw
             - name: KUMULUZEE_DATASOURCES0_PASSWORD
