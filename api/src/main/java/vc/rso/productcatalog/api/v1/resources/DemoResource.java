@@ -1,6 +1,7 @@
 package vc.rso.productcatalog.api.v1.resources;
 
 
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import services.config.RestProperties;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
 @Path("/demo")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@Tag(name = "For Health testing") //@Tag namesto default zapisano ime
 public class DemoResource {
     private Logger log = Logger.getLogger(DemoResource.class.getName());
 

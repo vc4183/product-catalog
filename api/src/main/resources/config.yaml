@@ -18,6 +18,15 @@ kumuluzee:
       username: dbuser_Diagnoses7782
       password: T3Bo32fu7yW#Gj^%r!%^
       max-pool-size: 20
+  health:
+    checks:
+      data-source-health-check:
+        type: liveness
+        jndi-name: jdbc/ProductMetadataDS
+    metrics:
+      web-instrumentation:
+        - name: store-products-endpoint
+          url-pattern: /v1/images/*
 rest-properties:
   maintenance-mode: false
   broken: false
