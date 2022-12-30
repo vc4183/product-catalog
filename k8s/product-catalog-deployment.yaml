@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: product-catalog-container
-          image: vcesar0edu/rso_repo:product-catalog-2022-12-11-00-41-33
+          image: vcesar0edu/rso_repo:product-catalog-2022-12-30-18-55-51
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
               value: jdbc:postgresql://lucky.db.elephantsql.com:5432/plqeoytw
