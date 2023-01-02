@@ -8,6 +8,11 @@ spec:
   selector:
     matchLabels:
       app: product-catalog-service
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+        maxSurge: 0
+        maxUnavailable: 1
   template:
     metadata:
       labels:
@@ -15,7 +20,7 @@ spec:
     spec:
       containers:
         - name: product-catalog-container
-          image: vcesar0edu/rso_repo:product-catalog-2022-12-30-18-55-51
+          image: vcesar0edu/rso_repo:product-catalog-2023-01-02-21-10-48
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
               value: jdbc:postgresql://lucky.db.elephantsql.com:5432/plqeoytw
