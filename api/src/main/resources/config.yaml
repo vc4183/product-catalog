@@ -11,7 +11,7 @@ kumuluzee:
     ui:
       server-auto-config:
         enabled: true
-        original-uri-check: false
+        original-uri-check: true
   datasources:
     - jndi-name: jdbc/ProductMetadataDS
       connection-url: jdbc:postgresql://localhost:5432/rso_product
