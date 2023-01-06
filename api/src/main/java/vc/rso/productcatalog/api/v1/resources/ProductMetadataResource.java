@@ -46,7 +46,9 @@ public class ProductMetadataResource {
             @APIResponse(responseCode = "200",
                     description = "List of productDTOs",
                     content = @Content(schema = @Schema(implementation = ProductDTO.class, type = SchemaType.ARRAY)),
-                    headers = {@Header(name = "X-Total-Count", description = "Number of objects in list")}
+                    headers = {@Header(name = "X-Total-Count",
+                            description = "Number of objects in list",
+                            schema = @Schema(type = SchemaType.INTEGER))}
             )})
     @GET
     public Response getProducts() {
