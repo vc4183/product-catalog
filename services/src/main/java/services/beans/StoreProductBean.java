@@ -1,14 +1,14 @@
 package services.beans;
 
+import DTOs.CurrencyConverterResponseDTO;
 import DTOs.StoreProductDTO;
-import com.kumuluz.ee.metrics.producers.MetricRegistryProducer;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
 import converters.StoreProductConverter;
 import entities.StoreProduct;
 
-import org.eclipse.microprofile.metrics.Counter;
-import org.eclipse.microprofile.metrics.MetricRegistry;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -16,6 +16,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.UriInfo;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -44,8 +49,46 @@ public class StoreProductBean {
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).defaultOffset(0)
                 .build();
 
-        return JPAUtils.queryEntities(em, StoreProduct.class, queryParameters).stream()
+        List<StoreProductDTO> dtos = JPAUtils.queryEntities(em, StoreProduct.class, queryParameters).stream()
                 .map(StoreProductConverter::toDto).collect(Collectors.toList());
+
+        float exchange = 0.0f;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://20.241.254.139/currency-convert/v1/exchange-rates/eur-to-gbp"))
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+        HttpResponse<String> response = null;
+        try {
+            response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        String res = response.body();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        CurrencyConverterResponseDTO resultObject = null;
+        try {
+            resultObject = objectMapper.readValue(res, CurrencyConverterResponseDTO.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        exchange = resultObject.getExchangeRate();
+
+        if(exchange != 0.0f){
+            for (StoreProductDTO dto:dtos) {
+                if(dto.getOrigPriceEur()) //set GBP price
+                    dto.setPriceGbp(dto.getPriceEur()*exchange);
+                else //set eur price
+                    dto.setPriceEur(dto.getPriceGbp() / exchange);
+            }
+        }
+
+        return dtos;
     }
 
     public StoreProductDTO getById(Integer id) {
